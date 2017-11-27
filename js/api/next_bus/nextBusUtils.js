@@ -50,7 +50,7 @@ const ARGUMENTS = {
 
 let selectedAgency;
 
-export const changeAgency = agency => {
+export const changeAgency = (agency) => {
     // selectedAgency exists in the nextBusAPI.js file, since it's a necessity for pretty much all api calls
     // Retrieve from AsyncStorage?
     if (agency) {

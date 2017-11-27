@@ -25,7 +25,7 @@
   },
   "rules": {
     "arrow-body-style": [1, "as-needed"],
-    "arrow-parens": [1, "as-needed"],
+    "arrow-parens": [1, "always"],
     "brace-style": 0,
     "camelcase": "warn",
     "class-methods-use-this": 0,
