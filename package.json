@@ -27,6 +27,7 @@
 		"react-test-renderer": "16.0.0"
 	},
 	"jest": {
+		"testEnvironment": "node",
 		"preset": "react-native"
 	}
 }

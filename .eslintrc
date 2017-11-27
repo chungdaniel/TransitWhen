@@ -58,6 +58,7 @@
     "no-underscore-dangle": 0,
     "no-unsafe-negation": 0,
     "no-unused-vars": [1, { "varsIgnorePattern": "(bindActionCreators|colors|chalk|dotenv|PropTypes)", "args": "none" }],
+    "no-unused-expressions":  ["error", { "allowTernary": true }],
     "no-use-before-define": 0,
     "no-useless-constructor": 0,
     "no-var": 1,

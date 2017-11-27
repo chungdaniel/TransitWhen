@@ -5,7 +5,8 @@ import {
     Text,
     View
 } from 'react-native';
-import api, { changeAgency } from './api/next_bus/nextBusAPI';
+import api from './api/next_bus/nextBusAPI';
+import { changeAgency } from './api/next_bus/nextBusUtils';
 
 const instructions = Platform.select({
     ios: 'Press Cmd+R to reload,\n' +
@@ -16,12 +17,13 @@ const instructions = Platform.select({
 
 export default class App extends Component {
     render() {
+        // console.log(api.agencies());
         api.agencies()
-            .then(result => console.log(result));
-        api.routes()
-            .then(result => console.log(result));
+            .then(result => console.log(result.data));
         changeAgency('ttc');
-        console.log(api.routes());
+        api.routeList()
+            .then(result => console.log(result.data));
+        // console.log(api.routes());
         return (
             <View style={styles.container}>
                 <Text style={styles.welcome}>
