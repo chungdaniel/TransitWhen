@@ -32,7 +32,7 @@ function routeConfig(routeTag) {
     // need to do one by one..?
     let url = NextBus.commands.routeConfig();
     if (routeTag) {
-        url += NextBus.arguments.routeTag(routeTag);
+        url += NextBus.arguments.route(routeTag);
     }
     return axiosInstance.get(url);
 }
