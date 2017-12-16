@@ -50,7 +50,7 @@
 
 let selectedAgency = '&a=ttc';
 
-export const changeAgency = (agency) => {
+const changeAgency = (agency) => {
     // selectedAgency exists in the nextBusAPI.src file, since it's a necessity for pretty much all api calls
     // Retrieve from AsyncStorage?
     if (agency) {
@@ -60,7 +60,7 @@ export const changeAgency = (agency) => {
     return false;
 };
 
-export class NextBusCommands {
+class NextBusCommands {
     static agencies() {
         return `agencyList`;
     }
@@ -94,7 +94,7 @@ export class NextBusCommands {
     }
 }
 
-export class NextBusArguments {
+class NextBusArguments {
     static agency(agencyTag) {
         return `&a=${agencyTag}`;
     }
@@ -123,3 +123,9 @@ export class NextBusArguments {
         return `&t=${timeStamp}`;
     }
 }
+
+module.exports = {
+    changeAgency,
+    commands: NextBusCommands,
+    arguments: NextBusArguments
+};

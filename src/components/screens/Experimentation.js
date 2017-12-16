@@ -4,8 +4,8 @@ import {
     View,
     Text
 } from 'react-native';
-import axios from 'axios';
 import * as nextBusAPI from 'api/next_bus/nextBusAPI';
+import stops from 'default/ttc/stops.json';
 
 class Experimentation extends Component {
     static navigationOptions = {
@@ -17,7 +17,8 @@ class Experimentation extends Component {
         super();
         this.state = {
             predictions: '',
-            currentTime: ''
+            currentTime: '',
+            stops
         };
     }
 
@@ -28,7 +29,7 @@ class Experimentation extends Component {
         const dateTime = new Date(parseInt(sketchyObject.epochTime, 10));
         concatenatedString = `${sketchyObject.branch}: Arriving at ${dateTime.toTimeString()}, or in approximately ${sketchyObject.minutes}, or too precise to be accurate: ${Math.floor(sketchyObject.seconds / 60)}:${sketchyObject.seconds % 60}`;
         const currentTime = new Date();
-
+        console.log(this.state.stops);
         this.setState({ predictions: concatenatedString, currentTime: currentTime.toTimeString() });
     };
 

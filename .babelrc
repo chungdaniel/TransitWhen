@@ -10,7 +10,8 @@
         "alias": {
           "screens": "./src/components/screens",
           "common": "./src/components/common",
-          "api": "./src/api"
+          "api": "./src/api",
+          "default": "./src/default"
         }
       }
     ]
