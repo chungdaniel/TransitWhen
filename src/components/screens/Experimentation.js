@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import {
     Button,
     View,
-    Text
+    Text,
+    Picker
 } from 'react-native';
 import * as nextBusAPI from 'api/next_bus/nextBusAPI';
-import stops from 'default/ttc/stops.json';
+import routes from 'seed_data/20171217_ttc_pertinent.json';
 
 class Experimentation extends Component {
     static navigationOptions = {
-        tabBarLabel: 'Home'
-        // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+        tabBarLabel: 'Experimentation'
+        // Note: By seed_data the icon is only shown on iOS. Search the showIcon option below.
     };
 
     constructor() {
@@ -18,7 +19,41 @@ class Experimentation extends Component {
         this.state = {
             predictions: '',
             currentTime: '',
-            stops
+            selectedRoute: {
+                direction: [
+                    {
+                        branch: '',
+                        name: '',
+                        stop: [
+                            {
+                                tag: ''
+                            }
+                        ],
+                        title: ''
+                    }
+                ],
+                stop: [
+                    {
+                        stopId: '',
+                        tag: '',
+                        title: ''
+                    }
+                ],
+                tag: '',
+                title: ''
+            },
+            selectedDirection: {
+                branch: '',
+                name: '',
+                stop: [
+                    {
+                        tag: ''
+                    }
+                ],
+                title: ''
+            },
+            selectedStopTag: '',
+            routes
         };
     }
 
@@ -29,16 +64,63 @@ class Experimentation extends Component {
         const dateTime = new Date(parseInt(sketchyObject.epochTime, 10));
         concatenatedString = `${sketchyObject.branch}: Arriving at ${dateTime.toTimeString()}, or in approximately ${sketchyObject.minutes}, or too precise to be accurate: ${Math.floor(sketchyObject.seconds / 60)}:${sketchyObject.seconds % 60}`;
         const currentTime = new Date();
-        console.log(this.state.stops);
         this.setState({ predictions: concatenatedString, currentTime: currentTime.toTimeString() });
     };
 
     render() {
         return (
             <View>
+                {/* route selection */}
+                <Picker
+                    selectedValue={this.state.selectedRoute.title}
+                    onValueChange={(itemValue) => {
+                        this.setState({
+                            selectedRoute: itemValue
+                        });
+                    }}>
+                    {this.state.routes.map((item) => (
+                        <Picker.Item
+                            label={item.title}
+                            value={item}
+                            key={item.tag}
+                        />
+                    ))}
+                </Picker>
+                {/* direction selection */}
+                <Picker
+                    selectedValue={this.state.selectedDirection.title}
+                    onValueChange={(itemValue) => {
+                        this.setState({
+                            selectedDirection: itemValue
+                        });
+                    }}>
+                    {this.state.selectedRoute.direction.map((direction) => (
+                        <Picker.Item
+                            label={direction.title} // .find
+                            value={direction}
+                            key={direction.tag}
+                        />
+                    ))}
+                </Picker>
+                {/* stop selection */}
+                <Picker
+                    selectedValue={this.state.selectedStopTag}
+                    onValueChange={(itemValue) => {
+                        this.setState({
+                            selectedStopTag: itemValue
+                        });
+                    }}>
+                    {this.state.selectedDirection.stop.map((item) => (
+                        <Picker.Item
+                            label={this.state.selectedRoute.stop.find((stop) => stop.tag === item.tag) ? this.state.selectedRoute.stop.find((stop) => stop.tag === item.tag).title : ''}
+                            value={item.tag}
+                            key={item.tag}
+                        />
+                    ))}
+                </Picker>
                 <Button
                     onPress={() => {
-                        nextBusAPI.singleStopPredictionsByStopId(4876)
+                        nextBusAPI.singleStopPredictionsByStopTag(this.state.selectedRoute.tag, this.state.selectedStopTag)
                             .then((res) => {
                                 this.parsePredictions(res.data);
                             });

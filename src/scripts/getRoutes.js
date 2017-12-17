@@ -1,8 +1,9 @@
 const readline = require('readline');
 const fs = require('fs');
+const now = require('performance-now');
 const ProgressBar = require('progress');
-const nextBusAPI = require('../../api/next_bus/nextBusAPI');
-const nextBusUtils = require('../../api/next_bus/nextBusUtils');
+const nextBusAPI = require('../api/next_bus/nextBusAPI');
+const nextBusUtils = require('../api/next_bus/nextBusUtils');
 
 const { log, error } = console;
 let agency,
@@ -11,6 +12,23 @@ const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
+
+// For later implementing flags to include the full list or not :)
+// var program = require('commander');
+//
+// program
+//     .version('0.1.0')
+//     .option('-if, --peppers', 'Add peppers')
+//     .option('-n, --pineapple', 'Add pineapple')
+//     .option('-b, --bbq-sauce', 'Add bbq sauce')
+//     .option('-c, --cheese [type]', 'Add the specified type of cheese [marble]', 'marble')
+//     .parse(process.argv);
+//
+// console.log('you ordered a pizza with:');
+// if (program.peppers) console.log('  - peppers');
+// if (program.pineapple) console.log('  - pineapple');
+// if (program.bbqSauce) console.log('  - bbq');
+// console.log('  - %s cheese', program.cheese);
 
 const userInputAgency = (checkAgainst) => {
     rl.question('Agency: ', (answer) => {
@@ -35,28 +53,30 @@ const userInputAgency = (checkAgainst) => {
 
 const getRouteConfig = (routeList, agency) => {
     log(`Fetching route list config for ${agency}`);
-    const bar = new ProgressBar(':bar :elapsed :percent', { total: routeList.length, complete: '█' });
+    const bar = new ProgressBar(':bar :percent', { total: routeList.length, complete: '█' });
     const fullRouteListConfig = [];
     const pertinentRouteListConfig = [];
+    const startTime = now();
     routeList.forEach((route) => {
         nextBusAPI.routeConfig(route.tag)
             .then((res) => {
                 bar.tick();
                 fullRouteListConfig.push(res.data);
-                const { route, copyright } = res.data;
+                const { route } = res.data;
                 const pertinentData = {
-                    route: {
-                        stop: route.stop,
-                        title: route.title,
-                        direction: route.direction,
-                        tag: route.tag
-                    },
-                    copyright
+                    title: route.title,
+                    direction: route.direction,
+                    stop: route.stop,
+                    tag: route.tag
                 };
                 pertinentRouteListConfig.push(pertinentData);
                 if (bar.complete) {
-                    log(`${fullRouteListConfig.length} / ${routeList.length} configs obtained`);
-                    writeToNewFile(fullRouteListConfig, `${agency}_full`);
+                    const endTime = now();
+                    const duration = (endTime - startTime) / 1000;
+                    log(`${fullRouteListConfig.length} / ${routeList.length} configs obtained in ${duration.toPrecision(3)} seconds`);
+                    // writeToNewFile(fullRouteListConfig, `${agency}_full`);
+                    // This might only work for TTC, since the tags are all numerical
+                    pertinentRouteListConfig.sort((a, b) => parseFloat(a.tag) - parseFloat(b.tag));
                     writeToNewFile(pertinentRouteListConfig, `${agency}_pertinent`);
                 }
             })
@@ -67,18 +87,16 @@ const getRouteConfig = (routeList, agency) => {
 };
 
 const writeToNewFile = (data, name) => {
-    log(`Writing data to new file`);
     const timestamp = new Date();
     const year = timestamp.getUTCFullYear();
     const month = timestamp.getUTCMonth() + 1; //months from 1-12
     const day = timestamp.getUTCDate();
     const json = JSON.stringify(data);
-    fs.writeFile(`${year}${month}${day}_${name}.json`, json, 'utf8', processComplete);
+    log(`Writing ${year}${month}${day}_${name}.json to TransitWhen/src/seed_data/`);
+    fs.writeFile(`${__dirname}/../seed_data/${year}${month}${day}_${name}.json`, json, 'utf8', processComplete);
 };
 
 const processComplete = () => {
-    log('Process complete!');
-    // process.exit();
 };
 
 nextBusAPI.agencies()

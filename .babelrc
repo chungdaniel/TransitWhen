@@ -11,7 +11,7 @@
           "screens": "./src/components/screens",
           "common": "./src/components/common",
           "api": "./src/api",
-          "default": "./src/default"
+          "seed_data": "./src/seed_data"
         }
       }
     ]
