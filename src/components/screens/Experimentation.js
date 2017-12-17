@@ -82,7 +82,7 @@ class Experimentation extends Component {
                         <Picker.Item
                             label={item.title}
                             value={item}
-                            key={item.tag}
+                            key={`route_${item.tag}`}
                         />
                     ))}
                 </Picker>
@@ -98,7 +98,7 @@ class Experimentation extends Component {
                         <Picker.Item
                             label={direction.title} // .find
                             value={direction}
-                            key={direction.tag}
+                            key={`direction_${direction.tag}`}
                         />
                     ))}
                 </Picker>
@@ -110,11 +110,11 @@ class Experimentation extends Component {
                             selectedStopTag: itemValue
                         });
                     }}>
-                    {this.state.selectedDirection.stop.map((item) => (
+                    {this.state.selectedDirection.stop.map((stop) => (
                         <Picker.Item
-                            label={this.state.selectedRoute.stop.find((stop) => stop.tag === item.tag) ? this.state.selectedRoute.stop.find((stop) => stop.tag === item.tag).title : ''}
-                            value={item.tag}
-                            key={item.tag}
+                            label={this.state.selectedRoute.stop.find((stop2) => stop2.tag === stop.tag) ? this.state.selectedRoute.stop.find((stop2) => stop2.tag === stop.tag).title : ''}
+                            value={stop.tag}
+                            key={`stop_${stop.tag}`}
                         />
                     ))}
                 </Picker>

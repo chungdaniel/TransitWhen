@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import getIconSet from './helpers/getIconSet';
-import { NAMED_COLORS } from '../../styling/colors';
+import { NAMED_COLORS } from '../../styling/common';
 
 const Icon = (props) => {
     const Icon = getIconSet(props.iconSet);
