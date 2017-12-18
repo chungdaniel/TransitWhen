@@ -3,9 +3,13 @@ import {
     Button,
     View,
     Text,
-    Picker
+    Picker,
+    Modal,
+    TextInput,
+    FlatList
 } from 'react-native';
 import * as nextBusAPI from 'api/next_bus/nextBusAPI';
+// TODO find someway to make this dynamic...
 import routes from 'seed_data/20171217_ttc_pertinent.json';
 
 class Experimentation extends Component {
@@ -47,13 +51,15 @@ class Experimentation extends Component {
                 name: '',
                 stop: [
                     {
-                        tag: ''
+                        tag: '',
+                        title: ''
                     }
                 ],
                 title: ''
             },
             selectedStopTag: '',
-            routes
+            routes,
+            visible: false
         };
     }
 
@@ -90,8 +96,13 @@ class Experimentation extends Component {
                 <Picker
                     selectedValue={this.state.selectedDirection.title}
                     onValueChange={(itemValue) => {
+                        const selectedDirectionWithStopTitles = { ...itemValue, stop: [] };
+                        itemValue.stop.forEach((stop) => {
+                            const stopObj = this.state.selectedRoute.stop.find((stop2) => stop2.tag === stop.tag);
+                            selectedDirectionWithStopTitles.stop.push(stopObj || { tag: '', title: '' });
+                        });
                         this.setState({
-                            selectedDirection: itemValue
+                            selectedDirection: selectedDirectionWithStopTitles
                         });
                     }}>
                     {this.state.selectedRoute.direction.map((direction) => (
@@ -112,7 +123,7 @@ class Experimentation extends Component {
                     }}>
                     {this.state.selectedDirection.stop.map((stop) => (
                         <Picker.Item
-                            label={this.state.selectedRoute.stop.find((stop2) => stop2.tag === stop.tag) ? this.state.selectedRoute.stop.find((stop2) => stop2.tag === stop.tag).title : ''}
+                            label={stop.title}
                             value={stop.tag}
                             key={`stop_${stop.tag}`}
                         />
@@ -133,6 +144,38 @@ class Experimentation extends Component {
                 <Text>
                     {this.state.currentTime}
                 </Text>
+                <Button
+                    onPress={() => {
+                        this.setState({ visible: true });
+                    }}
+                    title="Summon modal!"
+                />
+                <Modal
+                    animationType="fade"
+                    transparent
+                    visible={this.state.visible}
+                    onRequestClose={() => { this.setState({ visible: false }); }}>
+                    {/*<View style={styles.overlay}>*/}
+                        <View style={{ backgroundColor: 'red' }}>
+                            <TextInput
+                                // style={styles.searchBar}
+                                onChangeText={(search) => this.setState({ search })}
+                                value={this.state.search}
+                            />
+                            <FlatList
+                                data={this.state.selectedDirection.stop.filter((stop) => stop.title.includes('Lawrence'))}
+                                renderItem={(rowData) => <Text>{rowData.item.title}</Text>}
+                                keyExtractor={(stop) => Math.random()}
+                            />
+                    <Button
+                        onPress={() => {
+                            this.setState({ visible: false });
+                        }}
+                        title="Dismiss modal!"
+                    />
+                        </View>
+                    {/*</View>*/}
+                </Modal>
             </View>
         );
     }

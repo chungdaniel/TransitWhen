@@ -8,10 +8,13 @@
           "./src"
         ],
         "alias": {
-          "screens": "./src/components/screens",
-          "common": "./src/components/common",
           "api": "./src/api",
-          "seed_data": "./src/seed_data"
+          "bus": "./src/bus",
+          "subway": "./src/subway",
+          "components": "./src/components",
+          "seed_data": "./src/seed_data",
+          "styling": "./src/styling",
+          "utils": "./src/utils"
         }
       }
     ]
