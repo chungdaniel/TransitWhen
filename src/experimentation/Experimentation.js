@@ -8,14 +8,14 @@ import {
     TextInput,
     FlatList
 } from 'react-native';
-import * as nextBusAPI from 'api/next_bus/nextBusAPI';
+import * as nextBusApi from 'api/next_bus/nextBusApi';
 // TODO find someway to make this dynamic...
 import routes from 'seed_data/20171217_ttc_pertinent.json';
 import { window } from '../styling/common';
 
 class Experimentation extends Component {
     static navigationOptions = {
-        tabBarLabel: 'Experimentation'
+        tabBarLabel: 'BusExp'
         // Note: By seed_data the icon is only shown on iOS. Search the showIcon option below.
     };
 
@@ -173,7 +173,7 @@ class Experimentation extends Component {
                 </Picker>
                 <Button
                     onPress={() => {
-                        nextBusAPI.singleStopPredictionsByStopTag(this.state.selectedRoute.tag, this.state.selectedStopTag)
+                        nextBusApi.singleStopPredictionsByStopTag(this.state.selectedRoute.tag, this.state.selectedStopTag)
                             .then((res) => {
                                 this.parsePredictions(res.data);
                             });

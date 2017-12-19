@@ -1,0 +1,8 @@
+{
+  "bus_seed_files": [
+    "20171217_ttc_pertinent.json"
+  ],
+  "subway_seed_files": [
+    "20171216_ttc_full.json"
+  ]
+}

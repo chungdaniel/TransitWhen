@@ -1,4 +1,4 @@
-import nextBusApi, { changeAgency } from '../../src/api/next_bus/nextBusAPI';
+import nextBusApi, { changeAgency } from '../../src/api/next_bus/nextBusApi';
 
 beforeEach(() => {
     changeAgency('ttc');

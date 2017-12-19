@@ -5,7 +5,8 @@
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"test": "jest",
-		"init-transit": "node src/scripts/getRoutes.js"
+		"init-bus": "node src/scripts/getBusRoutes.js",
+		"init-subway": "node src/scripts/getSubwayStationsTTC.js"
 	},
 	"dependencies": {
 		"axios": "^0.17.1",

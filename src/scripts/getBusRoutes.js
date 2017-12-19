@@ -2,7 +2,7 @@ const readline = require('readline');
 const fs = require('fs');
 const now = require('performance-now');
 const ProgressBar = require('progress');
-const nextBusAPI = require('../api/next_bus/nextBusAPI');
+const nextBusApi = require('../api/next_bus/nextBusApi');
 const nextBusUtils = require('../api/next_bus/nextBusUtils');
 
 const { log, error } = console;
@@ -35,7 +35,7 @@ const userInputAgency = (checkAgainst) => {
         if (checkAgainst.some((x) => answer === x.tag)) { //we need some base case, for recursion
             nextBusUtils.changeAgency(answer);
             log(`Selecting agency ${answer}. Fetching route list for ${answer}...`);
-            nextBusAPI.routeList()
+            nextBusApi.routeList()
                 .then((res) => {
                     log(`Route list acquired! There are ${res.data.route.length} routes for ${answer}.`);
                     getRouteConfig(res.data.route, answer);
@@ -58,7 +58,7 @@ const getRouteConfig = (routeList, agency) => {
     const pertinentRouteListConfig = [];
     const startTime = now();
     routeList.forEach((route) => {
-        nextBusAPI.routeConfig(route.tag)
+        nextBusApi.routeConfig(route.tag)
             .then((res) => {
                 bar.tick();
                 fullRouteListConfig.push(res.data);
@@ -99,7 +99,7 @@ const writeToNewFile = (data, name) => {
 const processComplete = () => {
 };
 
-nextBusAPI.agencies()
+nextBusApi.agencies()
     .then((res) => {
         log(`List of agencies fetched. There are ${res.data.agency.length} agencies in total.`);
         agencyList = res.data.agency;

@@ -1,14 +1,15 @@
-import { TabNavigator } from 'react-navigation';
+import { TabNavigator, StackNavigator } from 'react-navigation';
 import BusPredictions from 'bus/screens/BusPredictions';
 import SubwayPredictions from 'subway/screens/SubwayPredictions';
 import Experimentation from 'experimentation/Experimentation';
+import SubwayExperimentation from 'experimentation/SubwayExperimentation';
 
 const TransitWhen = TabNavigator({
     BusPredictions: {
         screen: Experimentation
     },
     Notifications: {
-        screen: SubwayPredictions
+        screen: SubwayExperimentation
     },
     Experimentation: {
         screen: BusPredictions

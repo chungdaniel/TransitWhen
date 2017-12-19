@@ -51,7 +51,7 @@
 let selectedAgency = '&a=ttc';
 
 const changeAgency = (agency) => {
-    // selectedAgency exists in the nextBusAPI.src file, since it's a necessity for pretty much all api calls
+    // selectedAgency exists in the nextBusApi.src file, since it's a necessity for pretty much all api calls
     // Retrieve from AsyncStorage?
     if (agency) {
         selectedAgency = NextBusArguments.agency(agency);
