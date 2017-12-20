@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import * as nextBusApi from 'api/next_bus/nextBusApi';
 // TODO find someway to make this dynamic...
-import routes from 'seed_data/20171217_ttc_pertinent.json';
+import routes from 'seed_data/20171218_ttc_pertinent.json';
 import { window } from '../styling/common';
 
 class Experimentation extends Component {

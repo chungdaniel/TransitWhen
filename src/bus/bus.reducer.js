@@ -1,5 +1,4 @@
 // TODO find someway to make this dynamic...
-import routes from 'seed_data/20171217_ttc_pertinent.json';
 import {
     SELECT_BUS_DIRECTION,
     SELECT_BUS_ROUTE,
@@ -9,8 +8,9 @@ import {
 } from './bus.types';
 
 export const initialState = {
-    predictions: '',
-    currentTime: '',
+    predictions: [
+        {}
+    ],
     selectedRoute: {
         direction: [
             {
@@ -45,7 +45,7 @@ export const initialState = {
         ],
         title: ''
     },
-    selectedStopTag: '',
+    selectedStop: {},
     routes,
     visible: false
 };
