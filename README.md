@@ -17,7 +17,7 @@ Prediction times for public transit.  Made with React Native.
 What you can do with TransitWhen:
 
 * Obtain bus predictions for your transit of agency of choice (limited to what is supported by NextBus and currently only tested for the TTC)
-* (Planned) obtain subway predictions for the TTC
+* Subway predictions for the TTC are available
 
 ## Build Process
 
